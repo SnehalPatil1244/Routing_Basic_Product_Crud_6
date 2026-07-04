@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-md-4 md-4 mt-5">
+        <mat-card>
+            <img mat-card-image class="profile-img" [src]="UserDetails.profileImage" [alt]="UserDetails.userName"
+                [title]="UserDetails.userName">
+            <h4 class="font-weight-bold">
+                {{UserDetails.userName}}
+            </h4>
+            <p>
+                {{UserDetails.profileDescription}}
+            </p>
+            <mat-card-actions class="d-flex justify-content-between">
+                <button routerLink="edit" mat-raised-button color="primary">Edit</button>
+                <button mat-raised-button color="warn" (click)="onRemove()" >Remove</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="col-md-8 mt-5">
+        <mat-card class="mb-4 UserBasicInfo">
+            <h3 class="font-weight-bold">
+                Basic Information
+            </h3>
+            <p class="m-0 pb-3">
+                User ID : {{UserDetails.userId}}
+            </p>
+            <p class="m-0 pb-3">
+                Experience : {{UserDetails.experienceYears}}
+            </p>
+            <span class="m-0 pb-3">
+                Status : <small class="badge span-2" [ngClass]="{
+                      'badge-success' : UserDetails.isActive,
+                    'badge-danger' : !UserDetails.isActive
+                }">{{UserDetails.isActive ? 'Active' : 'In-Active'}}</small>
+            </span>
+        </mat-card>
+        <mat-card class="mb-4">
+            <h3 class="font-weight-bold">Skills</h3>
+            <mat-chip-list>
+                <mat-chip *ngFor="let skill of UserDetails.skills">{{skill}}</mat-chip>
+            </mat-chip-list>
+        </mat-card>
+
+        <mat-card>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="font-weight-bold">Current Address</h3>
+                    <p class="mb-2">{{UserDetails.address.current.country}}</p>
+                    <p class="mb-2">{{UserDetails.address.current.state}}</p>
+                    <p class="mb-2">{{UserDetails.address.current.city}}</p>
+                    <p class="mb-2">{{UserDetails.address.current.zipcode}}</p>
+                </div>
+                <div class="col-md-6">
+                    <h3 class="font-weight-bold">Permenanant Address</h3>
+                    <p class="mb-2">{{UserDetails.address.current.country}}</p>
+                    <p class="mb-2">{{UserDetails.address.current.state}}</p>
+                    <p class="mb-2">{{UserDetails.address.current.city}}</p>
+                    <p class="mb-2">{{UserDetails.address.current.zipcode}}</p>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
