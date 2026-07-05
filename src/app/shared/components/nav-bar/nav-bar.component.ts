@@ -3,6 +3,7 @@ import { ProductsService } from '../../services/products.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../../services/users.service';
 import { FairsService } from '../../services/fairs.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,7 +15,8 @@ export class NavBarComponent implements OnInit {
   constructor(private productservice: ProductsService,
     private userserive: UsersService,
     private fairservice : FairsService,
-    private router: Router
+    private router: Router,
+    private authservice : AuthService
   ) { }
 
   ngOnInit(): void {
@@ -42,6 +44,12 @@ export class NavBarComponent implements OnInit {
     this.fairservice.fetchfairs().subscribe(res => {
       this.router.navigate(['/fairs', res[0].fairId])
     })
+  }
+
+  logout(){
+    this.authservice.LogOut()
+    this.router.navigate([''])
+
   }
 
 }
