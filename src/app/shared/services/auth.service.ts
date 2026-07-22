@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Token } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ILogin, ISingIn } from '../models/auth';
 
@@ -10,6 +10,7 @@ import { ILogin, ISingIn } from '../models/auth';
 })
 export class AuthService {
   auth_Base_Url: string = environment.AuthBaseUrl
+  isLogging$ : Subject<string> = new Subject<string>();
 
   constructor(private hhtp: HttpClient) { }
 
@@ -31,11 +32,11 @@ export class AuthService {
     localStorage.setItem('userRole', userRole)
   }
 
-  getToken() {
-    localStorage.getItem('token')
+  getToken(): string | null {
+    return localStorage.getItem('token')
   }
-  getuserRole() {
-    localStorage.getItem('userRole')
+  getuserRole(): string | null {
+    return localStorage.getItem('userRole')
   }
 
   LogOut() {

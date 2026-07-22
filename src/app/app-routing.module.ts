@@ -12,6 +12,11 @@ import { FairsDashBoardComponent } from './shared/components/fairs-dash-board/fa
 import { FairsDetailsComponent } from './shared/components/fairs-details/fairs-details.component';
 import { HomepageComponent } from './shared/components/homepage/homepage.component';
 import { AuthComponent } from './shared/components/auth/auth.component';
+import { AuthGuard } from './shared/services/Auth.Guard';
+import { canDeactivatecomponent } from './shared/services/canDeactivate.Guard';
+import { userRoleGuard } from './shared/services/userRole.Guard';
+import { productResolver } from './shared/services/product.Resolver';
+import { newResolverComponent } from './shared/services/SingleProduct.Resolver';
 
 const routes: Routes = [
   {
@@ -20,12 +25,20 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomepageComponent
+    component: HomepageComponent,
+    canActivate: [AuthGuard, userRoleGuard],
+    data: {
+      userRole: ['buyer', 'admin', 'superAdmin']
+    }
   },
 
   {
     path: 'users',
     component: UserDashBoardComponent,
+    canActivate: [AuthGuard, userRoleGuard],
+    data: {
+      userRole: ['admin', 'superAdmin']
+    },
     children: [
       {
         path: 'adduser',
@@ -37,7 +50,8 @@ const routes: Routes = [
       },
       {
         path: ':userId/edit',
-        component: UserFormComponent
+        component: UserFormComponent,
+        canDeactivate: [canDeactivatecomponent]
       },
     ]
   },
@@ -45,6 +59,14 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductDashBoardComponent,
+    canActivate: [AuthGuard, userRoleGuard],
+    data: {
+      userRole: ['buyer', 'admin', 'superAdmin']
+    },
+    resolve : {
+      products : productResolver
+    },
+    
     children: [
       {
         path: 'addproduct',
@@ -52,18 +74,25 @@ const routes: Routes = [
       },
       {
         path: ':productId',
-        component: ProductsComponent
+        component: ProductsComponent,
+        resolve : {
+          products : newResolverComponent
+        }
       },
       {
         path: ':productId/edit',
-        component: ProductFormComponent
+        component: ProductFormComponent,
+        canDeactivate: [canDeactivatecomponent]
       },
     ]
   },
-
   {
     path: 'fairs',
     component: FairsDashBoardComponent,
+    canActivate: [AuthGuard, userRoleGuard],
+    data: {
+      userRole: ['superAdmin']
+    },
     children: [
       {
         path: ':fairsId',

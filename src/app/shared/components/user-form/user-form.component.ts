@@ -133,7 +133,10 @@ export class UserFormComponent implements OnInit {
           }
           this.skillsArr.clear()
           this.edituser.skills.forEach(ele => {
-            let control = new FormControl(ele)
+            let control = new FormControl({
+              value: ele,
+              disabled: res.userRole === 'Candidate'
+            })
             this.skillsArr.push(control)
           })
         }
@@ -154,10 +157,20 @@ export class UserFormComponent implements OnInit {
           },
           error: err => {
             console.log(err);
-
           }
         })
     }
+  }
+
+  onremoveskills(i: number) {
+    return this.skillsArr.removeAt(i)
+  }
+
+  canDeactivate(): boolean {
+    if (!!this.userForm.dirty && this.isinEditMode) {
+      return confirm(`Are You Sure You Want To Discard The Changes !!`)
+    }
+    return true
 
   }
 

@@ -19,25 +19,30 @@ export class ProductsComponent implements OnInit {
     private Routes: ActivatedRoute,
     private snackbar: SnackbarService,
     private matdialog: MatDialog
-  ) { }
-
-  ngOnInit(): void {
-    this.getproduct()
-  }
-
-  getproduct() {
-    this.Routes.params.subscribe(param => {
-      this.productId = param['productId']
-      if (this.productId) {
-        this.productservice.fetchproductById(this.productId)
-          .subscribe({
-            next: data => {
-              this.productobj = data
-            }
-          })
-      }
+  ) {
+    this.Routes.data.subscribe(res => {
+      this.productobj = res['products']
+      this.productId = res['products'].pid
     })
   }
+
+  ngOnInit(): void {
+    // this.getproduct()
+  }
+
+  // getproduct() {
+  //   this.Routes.params.subscribe(param => {
+  //     this.productId = param['productId']
+  //     if (this.productId) {
+  //       this.productservice.fetchproductById(this.productId)
+  //         .subscribe({
+  //           next: data => {
+  //             this.productobj = data
+  //           }
+  //         })
+  //     }
+  //   })
+  // }
 
   redirectToEdit() {
     this.router.navigate(['/products', this.productId, 'edit'], {
