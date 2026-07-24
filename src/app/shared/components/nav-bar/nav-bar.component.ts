@@ -15,7 +15,7 @@ export class NavBarComponent implements OnInit {
   constructor(private productservice: ProductsService,
     private userserive: UsersService,
     private fairservice: FairsService,
-    private router: Router,
+    public router: Router,
     private authservice: AuthService
   ) { }
 
